@@ -1,0 +1,1097 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>Indah Hamidah | Personal Finance</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+:root {
+  --bg: #0b1220;
+  --panel: #121e30;
+  --panel2: #17263b;
+  --gold: #b9935d;
+  --gold-light: #e0c18e;
+  --text: #f3f0e9;
+  --muted: #9ba9bc;
+  --border: rgba(185,147,93,.22);
+  --green: #71c7a0;
+  --red: #e58d8d;
+  --blue: #83a9d6;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+}
+
+button, input, select { font: inherit; }
+
+button { cursor: pointer; }
+
+.app {
+  max-width: 1250px;
+  margin: auto;
+  padding: 25px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.logo {
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--gold);
+  color: var(--gold-light);
+  display: grid;
+  place-items: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 21px;
+  letter-spacing: 1px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 23px;
+  letter-spacing: 2px;
+}
+
+.brand p {
+  margin: 5px 0 0;
+  color: var(--gold);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+
+.header-date {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.hero {
+  padding: 28px;
+  border: 1px solid var(--border);
+  background: linear-gradient(120deg,#17263b,#101827);
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.eyebrow {
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.hero h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 29px;
+  margin: 10px 0;
+  font-weight: 500;
+}
+
+.hero p {
+  color: var(--muted);
+  margin: 0;
+  font-size: 13px;
+}
+
+.month-control {
+  display: flex;
+  justify-content: flex-end;
+  margin: 18px 0;
+}
+
+input, select {
+  background: #0d1726;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 11px;
+  outline: none;
+  width: 100%;
+  min-width: 0;
+}
+
+input:focus, select:focus {
+  border-color: var(--gold);
+}
+
+.month-control input { max-width: 190px; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.stat {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 19px;
+  border-radius: 12px;
+}
+
+.stat small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.stat h3 {
+  font-size: 20px;
+  margin: 12px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.income { color: var(--green); }
+.expense { color: var(--red); }
+.balance { color: var(--gold-light); }
+.remaining { color: var(--blue); }
+
+.nav {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.nav button {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--muted);
+  padding: 11px 15px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.nav button.active {
+  color: #101827;
+  background: var(--gold);
+  border-color: var(--gold);
+  font-weight: 700;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 22px;
+  margin-bottom: 18px;
+}
+
+.panel h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px;
+  margin: 0 0 17px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.field label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.full { grid-column: 1/-1; }
+
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 11px 16px;
+  font-weight: 700;
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: #101827;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--gold-light);
+}
+
+.btn-danger {
+  color: var(--red);
+  background: transparent;
+  border: 1px solid rgba(229,141,141,.3);
+  padding: 6px 9px;
+}
+
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  min-width: 570px;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+td { color: #d7dce5; }
+
+.progress {
+  height: 7px;
+  background: #26354a;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress div {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 20px;
+}
+
+.item-card {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.item-card:last-child { border-bottom: 0; }
+
+.item-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.item-top strong { font-size: 13px; }
+.item-top small { color: var(--muted); }
+
+.empty {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 15px 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hidden { display: none !important; }
+
+footer {
+  text-align: center;
+  padding: 25px 10px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+footer span { color: var(--gold); }
+
+@media(max-width:800px) {
+  .stats { grid-template-columns: repeat(2,1fr); }
+  .grid-2 { grid-template-columns: 1fr; }
+}
+
+@media(max-width:520px) {
+  .app { padding: 15px; }
+  .brand h1 { font-size: 18px; }
+  .brand p { font-size: 8px; }
+  .hero { padding: 20px; }
+  .hero h2 { font-size: 24px; }
+  .stat { padding: 14px; }
+  .stat h3 { font-size: 16px; }
+  .panel { padding: 16px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .full { grid-column: auto; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header>
+  <div class="brand">
+    <div class="logo">IH</div>
+    <div>
+      <h1>INDAH HAMIDAH</h1>
+      <p>PERSONAL FINANCE · BUDGET & WEALTH TRACKER</p>
+    </div>
+  </div>
+  <div class="header-date" id="today"></div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">Personal Finance Dashboard</div>
+  <h2>Your money, your goals, your future.</h2>
+  <p>A little more discipline today, a better financial future tomorrow.</p>
+</section>
+
+<div class="month-control">
+  <input type="month" id="monthFilter">
+</div>
+
+<section class="stats">
+  <div class="stat">
+    <small>Total Income</small>
+    <h3 class="income" id="totalIncome">Rp0</h3>
+  </div>
+  <div class="stat">
+    <small>Total Expenses</small>
+    <h3 class="expense" id="totalExpense">Rp0</h3>
+  </div>
+  <div class="stat">
+    <small>Available Balance</small>
+    <h3 class="balance" id="available">Rp0</h3>
+  </div>
+  <div class="stat">
+    <small>Remaining Budget</small>
+    <h3 class="remaining" id="remaining">Rp0</h3>
+  </div>
+</section>
+
+<nav class="nav">
+  <button class="active" data-tab="dashboard">Dashboard</button>
+  <button data-tab="transactions">Transactions</button>
+  <button data-tab="budget">Budget Plan</button>
+  <button data-tab="installments">Installments</button>
+  <button data-tab="savings">Savings Funds</button>
+  <button data-tab="backup">Backup</button>
+</nav>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="tab">
+  <div class="grid-2">
+    <div class="panel">
+      <h3>Monthly Overview</h3>
+      <div id="overview"></div>
+    </div>
+    <div class="panel">
+      <h3>Recent Transactions</h3>
+      <div id="recent"></div>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>Budget Progress</h3>
+    <div id="dashboardBudget"></div>
+  </div>
+</section>
+
+<!-- TRANSACTIONS -->
+<section id="transactions" class="tab hidden">
+  <div class="panel">
+    <h3>Add New Transaction</h3>
+    <form id="transactionForm" class="form-grid">
+      <div class="field">
+        <label>Transaction Type</label>
+        <select id="type" required>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Date</label>
+        <input type="date" id="transactionDate" required>
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <select id="category" required></select>
+      </div>
+      <div class="field">
+        <label>Amount (Rp)</label>
+        <input type="number" id="amount" min="1" placeholder="Example: 500000" required>
+      </div>
+      <div class="field full">
+        <label>Description</label>
+        <input type="text" id="description" placeholder="Transaction details">
+      </div>
+      <div class="full">
+        <button class="btn btn-gold" type="submit">+ Add Transaction</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h3>Transaction History</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="transactionRows"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- BUDGET -->
+<section id="budget" class="tab hidden">
+  <div class="panel">
+    <h3>Create Budget Plan</h3>
+    <form id="budgetForm" class="form-grid">
+      <div class="field">
+        <label>Category</label>
+        <select id="budgetCategory" required></select>
+      </div>
+      <div class="field">
+        <label>Monthly Budget (Rp)</label>
+        <input type="number" id="budgetAmount" min="1" required>
+      </div>
+      <div class="full">
+        <button class="btn btn-gold" type="submit">Save Budget</button>
+      </div>
+    </form>
+  </div>
+  <div class="panel">
+    <h3>Budget vs Actual</h3>
+    <div id="budgetList"></div>
+  </div>
+</section>
+
+<!-- INSTALLMENTS -->
+<section id="installments" class="tab hidden">
+  <div class="panel">
+    <h3>Add Installment</h3>
+    <form id="installmentForm" class="form-grid">
+      <div class="field">
+        <label>Item / Debt Name</label>
+        <input id="installmentName" required placeholder="Example: Braces">
+      </div>
+      <div class="field">
+        <label>Monthly Payment (Rp)</label>
+        <input type="number" id="installmentPayment" min="1" required>
+      </div>
+      <div class="field">
+        <label>Remaining Balance (Rp)</label>
+        <input type="number" id="installmentRemaining" min="0" required>
+      </div>
+      <div class="field">
+        <label>Due Date</label>
+        <input type="date" id="installmentDue">
+      </div>
+      <div class="full">
+        <button class="btn btn-gold" type="submit">Add Installment</button>
+      </div>
+    </form>
+  </div>
+  <div class="panel">
+    <h3>Installment Tracker</h3>
+    <div id="installmentList"></div>
+  </div>
+</section>
+
+<!-- SAVINGS -->
+<section id="savings" class="tab hidden">
+  <div class="panel">
+    <h3>Create Savings Goal</h3>
+    <form id="savingForm" class="form-grid">
+      <div class="field">
+        <label>Goal Name</label>
+        <input id="savingName" required placeholder="Emergency Fund">
+      </div>
+      <div class="field">
+        <label>Target Amount (Rp)</label>
+        <input type="number" id="savingTarget" min="1" required>
+      </div>
+      <div class="field">
+        <label>Current Savings (Rp)</label>
+        <input type="number" id="savingCurrent" min="0" value="0" required>
+      </div>
+      <div class="field">
+        <label>Target Date</label>
+        <input type="date" id="savingDate">
+      </div>
+      <div class="full">
+        <button class="btn btn-gold" type="submit">Create Goal</button>
+      </div>
+    </form>
+  </div>
+  <div class="panel">
+    <h3>Savings & Sinking Funds</h3>
+    <div id="savingList"></div>
+  </div>
+</section>
+
+<!-- BACKUP -->
+<section id="backup" class="tab hidden">
+  <div class="panel">
+    <h3>Data Management</h3>
+    <p style="color:var(--muted);font-size:13px;line-height:1.8">
+      Your financial data is stored in this browser. Export your backup regularly
+      to keep a copy of your transactions, budget, installments, and savings.
+    </p>
+    <div class="actions">
+      <button class="btn btn-gold" id="exportBtn">Export Backup JSON</button>
+      <label class="btn btn-outline" for="importFile">Import Backup</label>
+      <input type="file" id="importFile" accept=".json,application/json" hidden>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>Privacy Reminder</h3>
+    <p style="color:var(--muted);font-size:13px;line-height:1.8">
+      This application is designed for personal budgeting. Avoid entering
+      passwords, PINs, card numbers, or confidential banking credentials.
+      Data is not automatically synchronized between devices.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <span>INDAH HAMIDAH</span> · PERSONAL FINANCE · BUILT WITH CARE ✦
+</footer>
+
+</div>
+
+<script>
+const KEY = "indahHamidahFinance_v1";
+
+const defaultData = {
+  transactions: [],
+  budgets: [],
+  installments: [],
+  savings: []
+};
+
+let data = loadData();
+
+function loadData() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY));
+    if (!saved) return structuredClone(defaultData);
+
+    return {
+      transactions: Array.isArray(saved.transactions) ? saved.transactions : [],
+      budgets: Array.isArray(saved.budgets) ? saved.budgets : [],
+      installments: Array.isArray(saved.installments) ? saved.installments : [],
+      savings: Array.isArray(saved.savings) ? saved.savings : []
+    };
+  } catch {
+    return structuredClone(defaultData);
+  }
+}
+
+function saveData() {
+  localStorage.setItem(KEY, JSON.stringify(data));
+  render();
+}
+
+const incomeCategories = [
+  "Salary",
+  "Bonus",
+  "Freelance",
+  "Business",
+  "Other Income"
+];
+
+const expenseCategories = [
+  "Food & Drinks",
+  "Transportation",
+  "Installments",
+  "Healthcare",
+  "Braces & Dental",
+  "Personal Care",
+  "Skincare & Bodycare",
+  "Communication",
+  "Family & Social",
+  "Coffee & Lifestyle",
+  "Shopping",
+  "Entertainment",
+  "Education",
+  "Savings",
+  "Other Expenses"
+];
+
+const rupiah = value => new Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+  maximumFractionDigits: 0
+}).format(Number(value) || 0);
+
+const today = new Date();
+const todayISO = date => {
+  const d = new Date(date);
+  const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0,10);
+};
+
+document.getElementById("today").textContent =
+  today.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+
+document.getElementById("monthFilter").value =
+  todayISO(today).slice(0,7);
+
+document.getElementById("transactionDate").value = todayISO(today);
+
+function selectedMonth() {
+  return document.getElementById("monthFilter").value;
+}
+
+function monthlyTransactions() {
+  return data.transactions.filter(t =>
+    t.date && t.date.slice(0,7) === selectedMonth()
+  );
+}
+
+function fillCategories() {
+  const type = document.getElementById("type").value;
+  const categories = type === "income" ? incomeCategories : expenseCategories;
+
+  document.getElementById("category").innerHTML =
+    categories.map(c => `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`).join("");
+
+  document.getElementById("budgetCategory").innerHTML =
+    expenseCategories.map(c => `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`).join("");
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function totals() {
+  const tx = monthlyTransactions();
+  const income = tx.filter(t => t.type === "income")
+    .reduce((s,t) => s + Number(t.amount), 0);
+
+  const expense = tx.filter(t => t.type === "expense")
+    .reduce((s,t) => s + Number(t.amount), 0);
+
+  const planned = data.budgets.reduce((s,b) => s + Number(b.amount), 0);
+
+  const remaining = planned - expense;
+
+  return {income, expense, balance: income-expense, planned, remaining};
+}
+
+function renderDashboard() {
+  const t = totals();
+
+  document.getElementById("totalIncome").textContent = rupiah(t.income);
+  document.getElementById("totalExpense").textContent = rupiah(t.expense);
+  document.getElementById("available").textContent = rupiah(t.balance);
+  document.getElementById("remaining").textContent = rupiah(t.remaining);
+
+  document.getElementById("overview").innerHTML = `
+    <div class="item-card">
+      <div class="item-top"><span>Income</span><strong class="income">${rupiah(t.income)}</strong></div>
+    </div>
+    <div class="item-card">
+      <div class="item-top"><span>Expenses</span><strong class="expense">${rupiah(t.expense)}</strong></div>
+    </div>
+    <div class="item-card">
+      <div class="item-top"><span>Budget Planned</span><strong>${rupiah(t.planned)}</strong></div>
+    </div>
+    <div class="item-card">
+      <div class="item-top"><span>Net Cash Movement</span><strong class="balance">${rupiah(t.balance)}</strong></div>
+    </div>`;
+
+  const recent = monthlyTransactions().slice().sort((a,b) =>
+    b.date.localeCompare(a.date)
+  ).slice(0,5);
+
+  document.getElementById("recent").innerHTML = recent.length
+    ? recent.map(t => `
+      <div class="item-card">
+        <div class="item-top">
+          <strong>${escapeHTML(t.category)}</strong>
+          <strong class="${t.type === "income" ? "income" : "expense"}">
+            ${t.type === "income" ? "+" : "-"}${rupiah(t.amount)}
+          </strong>
+        </div>
+        <small>${escapeHTML(t.date)} · ${escapeHTML(t.description || "-")}</small>
+      </div>`).join("")
+    : '<div class="empty">No transactions this month.</div>';
+
+  document.getElementById("dashboardBudget").innerHTML =
+    budgetHTML();
+}
+
+function budgetHTML() {
+  if (!data.budgets.length) {
+    return '<div class="empty">Create your first budget plan.</div>';
+  }
+
+  return data.budgets.map((b,i) => {
+    const actual = monthlyTransactions()
+      .filter(t => t.type === "expense" && t.category === b.category)
+      .reduce((s,t) => s + Number(t.amount), 0);
+
+    const percent = b.amount > 0
+      ? Math.min(100, actual / b.amount * 100)
+      : 0;
+
+    return `
+      <div class="item-card">
+        <div class="item-top">
+          <strong>${escapeHTML(b.category)}</strong>
+          <strong>${rupiah(actual)} / ${rupiah(b.amount)}</strong>
+        </div>
+        <div class="progress"><div style="width:${percent}%"></div></div>
+        <div class="item-top" style="margin-top:7px">
+          <small>${percent.toFixed(1)}% used</small>
+          <button class="btn-danger" onclick="deleteBudget(${i})">Delete</button>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function renderTransactions() {
+  const rows = monthlyTransactions().slice().sort((a,b) =>
+    b.date.localeCompare(a.date)
+  );
+
+  document.getElementById("transactionRows").innerHTML = rows.length
+    ? rows.map(t => {
+      const index = data.transactions.indexOf(t);
+      return `
+      <tr>
+        <td>${escapeHTML(t.date)}</td>
+        <td>${t.type === "income" ? "Income" : "Expense"}</td>
+        <td>${escapeHTML(t.category)}</td>
+        <td>${escapeHTML(t.description || "-")}</td>
+        <td class="${t.type === "income" ? "income" : "expense"}">
+          ${rupiah(t.amount)}
+        </td>
+        <td><button class="btn-danger" onclick="deleteTransaction(${index})">Delete</button></td>
+      </tr>`;
+    }).join("")
+    : '<tr><td colspan="6" class="empty">No transactions found.</td></tr>';
+}
+
+function renderBudget() {
+  document.getElementById("budgetList").innerHTML = budgetHTML();
+}
+
+function renderInstallments() {
+  const list = document.getElementById("installmentList");
+
+  list.innerHTML = data.installments.length
+    ? data.installments.map((item,i) => {
+      const months = item.payment > 0
+        ? Math.ceil(item.remaining / item.payment)
+        : 0;
+
+      return `
+      <div class="item-card">
+        <div class="item-top">
+          <strong>${escapeHTML(item.name)}</strong>
+          <button class="btn-danger" onclick="deleteInstallment(${i})">Delete</button>
+        </div>
+        <p style="font-size:12px;color:var(--muted)">
+          Monthly payment: ${rupiah(item.payment)}<br>
+          Remaining balance: <strong style="color:var(--gold-light)">${rupiah(item.remaining)}</strong><br>
+          Due date: ${escapeHTML(item.due || "-")}<br>
+          Estimated remaining period: ${months} month(s)
+        </p>
+        <button class="btn btn-outline" onclick="payInstallment(${i})">Record Payment</button>
+      </div>`;
+    }).join("")
+    : '<div class="empty">No installments added yet.</div>';
+}
+
+function renderSavings() {
+  document.getElementById("savingList").innerHTML =
+    data.savings.length
+      ? data.savings.map((item,i) => {
+        const percent = item.target > 0
+          ? Math.min(100, item.current / item.target * 100)
+          : 0;
+
+        return `
+        <div class="item-card">
+          <div class="item-top">
+            <strong>${escapeHTML(item.name)}</strong>
+            <button class="btn-danger" onclick="deleteSaving(${i})">Delete</button>
+          </div>
+          <p style="font-size:12px;color:var(--muted)">
+            ${rupiah(item.current)} / ${rupiah(item.target)}
+            <br>Target date: ${escapeHTML(item.date || "-")}
+          </p>
+          <div class="progress"><div style="width:${percent}%"></div></div>
+          <div class="item-top" style="margin-top:7px">
+            <small>${percent.toFixed(1)}% achieved</small>
+            <button class="btn btn-outline" onclick="addSaving(${i})">+ Add Savings</button>
+          </div>
+        </div>`;
+      }).join("")
+      : '<div class="empty">No savings goals yet.</div>';
+}
+
+function render() {
+  renderDashboard();
+  renderTransactions();
+  renderBudget();
+  renderInstallments();
+  renderSavings();
+}
+
+document.getElementById("type").addEventListener("change", fillCategories);
+
+document.getElementById("monthFilter").addEventListener("change", render);
+
+document.getElementById("transactionForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  const amount = Number(document.getElementById("amount").value);
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    alert("Enter a valid transaction amount.");
+    return;
+  }
+
+  data.transactions.push({
+    id: crypto.randomUUID(),
+    type: document.getElementById("type").value,
+    date: document.getElementById("transactionDate").value,
+    category: document.getElementById("category").value,
+    amount,
+    description: document.getElementById("description").value.trim()
+  });
+
+  e.target.reset();
+  document.getElementById("transactionDate").value = todayISO(today);
+  fillCategories();
+  saveData();
+});
+
+document.getElementById("budgetForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  const category = document.getElementById("budgetCategory").value;
+  const amount = Number(document.getElementById("budgetAmount").value);
+
+  if (!Number.isFinite(amount) || amount <= 0) return;
+
+  const existing = data.budgets.find(b => b.category === category);
+
+  if (existing) existing.amount = amount;
+  else data.budgets.push({category,amount});
+
+  e.target.reset();
+  saveData();
+});
+
+document.getElementById("installmentForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  data.installments.push({
+    name: document.getElementById("installmentName").value.trim(),
+    payment: Number(document.getElementById("installmentPayment").value),
+    remaining: Number(document.getElementById("installmentRemaining").value),
+    due: document.getElementById("installmentDue").value
+  });
+
+  e.target.reset();
+  saveData();
+});
+
+document.getElementById("savingForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  data.savings.push({
+    name: document.getElementById("savingName").value.trim(),
+    target: Number(document.getElementById("savingTarget").value),
+    current: Number(document.getElementById("savingCurrent").value),
+    date: document.getElementById("savingDate").value
+  });
+
+  e.target.reset();
+  saveData();
+});
+
+function deleteTransaction(i) {
+  if (!confirm("Delete this transaction?")) return;
+  data.transactions.splice(i,1);
+  saveData();
+}
+
+function deleteBudget(i) {
+  if (!confirm("Delete this budget?")) return;
+  data.budgets.splice(i,1);
+  saveData();
+}
+
+function deleteInstallment(i) {
+  if (!confirm("Delete this installment?")) return;
+  data.installments.splice(i,1);
+  saveData();
+}
+
+function deleteSaving(i) {
+  if (!confirm("Delete this savings goal?")) return;
+  data.savings.splice(i,1);
+  saveData();
+}
+
+function payInstallment(i) {
+  const item = data.installments[i];
+  const input = prompt("Enter payment amount (Rp):");
+
+  if (input === null) return;
+
+  const amount = Number(input);
+
+  if (!Number.isFinite(amount) || amount <= 0 || amount > item.remaining) {
+    alert("Enter a valid amount not exceeding the remaining balance.");
+    return;
+  }
+
+  item.remaining -= amount;
+
+  if (item.remaining === 0) {
+    alert("Installment fully paid!");
+  }
+
+  saveData();
+}
+
+function addSaving(i) {
+  const item = data.savings[i];
+  const input = prompt("How much would you like to add? (Rp):");
+
+  if (input === null) return;
+
+  const amount = Number(input);
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    alert("Enter a valid amount.");
+    return;
+  }
+
+  item.current += amount;
+  saveData();
+}
+
+document.getElementById("exportBtn").addEventListener("click", () => {
+  const blob = new Blob(
+    [JSON.stringify(data,null,2)],
+    {type:"application/json"}
+  );
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = "Indah-Hamidah-Finance-Backup.json";
+  a.click();
+
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById("importFile").addEventListener("change", async e => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  try {
+    const imported = JSON.parse(await file.text());
+
+    if (
+      !imported ||
+      !Array.isArray(imported.transactions) ||
+      !Array.isArray(imported.budgets) ||
+      !Array.isArray(imported.installments) ||
+      !Array.isArray(imported.savings)
+    ) {
+      throw new Error("Invalid backup format");
+    }
+
+    if (!confirm("Importing will replace your current app data. Continue?")) {
+      e.target.value = "";
+      return;
+    }
+
+    data = imported;
+    saveData();
+    alert("Backup imported successfully.");
+  } catch {
+    alert("Could not import this backup file.");
+  }
+
+  e.target.value = "";
+});
+
+document.querySelectorAll(".nav button").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".nav button").forEach(b =>
+      b.classList.remove("active")
+    );
+
+    button.classList.add("active");
+
+    document.querySelectorAll(".tab").forEach(tab =>
+      tab.classList.add("hidden")
+    );
+
+    document.getElementById(button.dataset.tab)
+      .classList.remove("hidden");
+  });
+});
+
+fillCategories();
+render();
+</script>
+</body>
+</html>
