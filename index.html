@@ -352,10 +352,36 @@ footer span { color: var(--gold); }
   .full { grid-column: auto; }
 }
 </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 <div class="app">
+  <div class="panel" id="authPanel">
+  <h3>Welcome to Your Personal Finance</h3>
+  <p style="color:var(--muted);font-size:13px">
+    Sign in to sync your financial data across devices.
+  </p>
+
+  <div class="form-grid">
+    <div class="field full">
+      <label>Email Address</label>
+      <input type="email" id="authEmail" placeholder="Your email" required>
+    </div>
+
+    <div class="field full">
+      <label>Password</label>
+      <input type="password" id="authPassword" placeholder="Your password" required>
+    </div>
+
+    <div class="full actions">
+      <button class="btn btn-gold" id="loginBtn" type="button">Sign In</button>
+      <button class="btn btn-outline" id="signupBtn" type="button">Create Account</button>
+    </div>
+  </div>
+
+  <p id="authMessage" style="font-size:12px;color:var(--gold-light)"></p>
+</div>
 
 <header>
   <div class="brand">
@@ -598,6 +624,13 @@ footer span { color: var(--gold); }
 
 <script>
 const KEY = "indahHamidahFinance_v1";
+  const SUPABASE_URL = "https://gwfjhsmnbknnzhgymnpz.supabase.co";
+const SUPABASE_KEY = "sb_publishable_WUR3R05foPU1j4gG8dwUI_ILI3yCut";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 const defaultData = {
   transactions: [],
@@ -1090,7 +1123,204 @@ document.querySelectorAll(".nav button").forEach(button => {
       .classList.remove("hidden");
   });
 });
+// =====================================
+// SUPABASE AUTHENTICATION & CLOUD SYNC
+// =====================================
 
+let currentUser = null;
+
+function showAuthMessage(message, isError = false) {
+  const el = document.getElementById("authMessage");
+  el.textContent = message;
+  el.style.color = isError ? "var(--red)" : "var(--gold-light)";
+}
+
+function hasLocalData() {
+  return (
+    data.transactions.length > 0 ||
+    data.budgets.length > 0 ||
+    data.installments.length > 0 ||
+    data.savings.length > 0
+  );
+}
+
+// Save locally and to cloud
+async function saveData() {
+  localStorage.setItem(KEY, JSON.stringify(data));
+  render();
+
+  if (!currentUser) return;
+
+  const { error } = await supabaseClient
+    .from("finance_data")
+    .upsert({
+      user_id: currentUser.id,
+      data: data,
+      updated_at: new Date().toISOString()
+    });
+
+  if (error) {
+    showAuthMessage("Cloud sync failed: " + error.message, true);
+    return;
+  }
+
+  showAuthMessage("Your financial data is synced successfully ✦");
+}
+
+// Load account data
+async function syncAccount(user) {
+  currentUser = user;
+
+  showAuthMessage("Connecting to your cloud account...");
+
+  const { data: result, error } = await supabaseClient
+    .from("finance_data")
+    .select("data")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (error) {
+    currentUser = null;
+    showAuthMessage("Could not load cloud data: " + error.message, true);
+    return;
+  }
+
+  if (result && result.data) {
+    // Cloud data takes priority when it already exists
+    data = {
+      transactions: Array.isArray(result.data.transactions) ? result.data.transactions : [],
+      budgets: Array.isArray(result.data.budgets) ? result.data.budgets : [],
+      installments: Array.isArray(result.data.installments) ? result.data.installments : [],
+      savings: Array.isArray(result.data.savings) ? result.data.savings : []
+    };
+
+    localStorage.setItem(KEY, JSON.stringify(data));
+    render();
+
+    showAuthMessage("Cloud data loaded successfully ✦");
+  } else {
+    // First login: migrate existing laptop data to cloud
+    const { error: uploadError } = await supabaseClient
+      .from("finance_data")
+      .upsert({
+        user_id: user.id,
+        data: data,
+        updated_at: new Date().toISOString()
+      });
+
+    if (uploadError) {
+      showAuthMessage("Migration failed: " + uploadError.message, true);
+      return;
+    }
+
+    showAuthMessage(
+      hasLocalData()
+        ? "Your existing laptop data has been uploaded to the cloud ✦"
+        : "Your cloud account is ready ✦"
+    );
+  }
+
+  document.getElementById("logoutBtn").classList.remove("hidden");
+}
+
+// Login
+document.getElementById("loginBtn").addEventListener("click", async () => {
+  const email = document.getElementById("authEmail").value.trim();
+  const password = document.getElementById("authPassword").value;
+
+  if (!email || !password) {
+    showAuthMessage("Please enter your email and password.", true);
+    return;
+  }
+
+  showAuthMessage("Signing in...");
+
+  const { data: result, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    showAuthMessage(error.message, true);
+    return;
+  }
+
+  await syncAccount(result.user);
+});
+
+// Create account
+document.getElementById("signupBtn").addEventListener("click", async () => {
+  const email = document.getElementById("authEmail").value.trim();
+  const password = document.getElementById("authPassword").value;
+
+  if (!email || !password) {
+    showAuthMessage("Please enter your email and password.", true);
+    return;
+  }
+
+  if (password.length < 6) {
+    showAuthMessage("Password must contain at least 6 characters.", true);
+    return;
+  }
+
+  showAuthMessage("Creating your account...");
+
+  const { data: result, error } = await supabaseClient.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: window.location.origin + window.location.pathname
+    }
+  });
+
+  if (error) {
+    showAuthMessage(error.message, true);
+    return;
+  }
+
+  if (result.session && result.user) {
+    await syncAccount(result.user);
+  } else {
+    showAuthMessage("Account created! Please check your email to confirm your account.");
+  }
+});
+
+// Logout button
+const logoutButton = document.createElement("button");
+logoutButton.id = "logoutBtn";
+logoutButton.className = "btn btn-outline hidden";
+logoutButton.textContent = "Sign Out";
+logoutButton.type = "button";
+document.getElementById("authPanel").appendChild(logoutButton);
+
+logoutButton.addEventListener("click", async () => {
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    showAuthMessage(error.message, true);
+    return;
+  }
+
+  currentUser = null;
+  logoutButton.classList.add("hidden");
+  showAuthMessage("You have signed out.");
+});
+
+// Restore existing login session
+async function initializeCloud() {
+  const { data: result, error } = await supabaseClient.auth.getSession();
+
+  if (error) {
+    showAuthMessage(error.message, true);
+    return;
+  }
+
+  if (result.session) {
+    await syncAccount(result.session.user);
+  }
+}
+
+initializeCloud();
 fillCategories();
 render();
 </script>
